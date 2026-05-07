@@ -274,7 +274,59 @@ README 첫 단락에서 "토스 스타일"·"KFTC"·"account number → bank" �
 
 - **Code license**: MIT
 - **Logo assets**: 각 기관 자산. 저장소는 fair-use 범위에서 호스팅하며 takedown 요청에 응한다.
-- `TRADEMARKS.md`에 정책 명문화
+- 정책 모델: **simple-icons DISCLAIMER 패턴**
+- `TRADEMARKS.md`에 다음 명문화:
+  - 로고는 각 금융기관 상표이며 식별(identification) 목적의 fair use임. endorsement 의미 없음
+  - 사용자가 자신의 사용 케이스에 대한 라이선스 책임을 짐
+  - Takedown 채널: GitHub Issues (https://github.com/mkroo/korean-bank-detector/issues)
+  - 응답 SLA: 영업일 3일 이내 로고 제거 + patch 릴리스
+
+## 9a. Documentation & Contribution
+
+### 9a.1 언어 정책
+
+- **한국어 단일 README**. 패키지가 한국 local 사용처에 국한되므로 글로벌 번역 부담 회피
+- npm 디스커버리는 영문 `description` + `keywords`로 잡음 (Section 8 참조)
+- 코드 주석, 커밋 메시지, PR 제목/본문은 영어 (글로벌 OSS 컨벤션)
+
+### 9a.2 README.md 구조
+
+1. 로고 + 배지 (npm version, downloads, CI, MIT)
+2. 제목 + 한 줄 소개 (검색 키워드 노출)
+3. Features (5 bullets)
+4. Installation
+5. Quick Start (detect / detectOne / sub-path import 예제)
+6. API Reference (간결한 표)
+7. Bundle Size & Tree-shaking 가이드
+8. Supported Institutions (전체 목록 + 추가 요청 안내)
+9. Trademarks (한 단락 + TRADEMARKS.md 링크)
+10. Contributing (한 단락 + CONTRIBUTING.md 링크)
+11. License + Acknowledgements (jhaemin/korea-financial-account-number-detector 크레딧)
+
+### 9a.3 CONTRIBUTING.md 구조
+
+1. Code of Conduct 링크
+2. Getting Started (clone → pnpm install → pnpm test)
+3. Project Structure (spec Section 5 인용)
+4. Adding/Updating an Institution (KFTC 문서 참조 + fixture 5개)
+5. Adding/Updating a Logo (simple-icons 모델: 공식 BI/CI 출처, viewBox 표준화, SVGO, source URL 메타)
+6. PR Guidelines (Conventional Commits, 단일 책임 PR, changeset)
+7. Issue Templates 안내
+8. Trademark Concerns / Takedown
+9. Release Process (메인테이너 전용)
+
+### 9a.4 Code of Conduct
+
+- **Contributor Covenant 2.1** 표준 채택
+- 원문: https://www.contributor-covenant.org/version/2/1/code_of_conduct/
+- `CODE_OF_CONDUCT.md` 파일로 저장
+
+### 9a.5 Issue / PR 템플릿 (`.github/`)
+
+- `ISSUE_TEMPLATE/bug_report.yml`
+- `ISSUE_TEMPLATE/institution_request.yml` (새 기관 추가 요청)
+- `ISSUE_TEMPLATE/logo_takedown.yml` (상표 takedown 요청 전용)
+- `pull_request_template.md`
 
 ## 10. Roadmap (informational)
 
