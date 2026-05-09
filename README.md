@@ -65,10 +65,16 @@ import shinhanLogo from 'korean-bank-detector/logos/088'
 
 ## 동작 원리
 
-1. 입력에서 하이픈·공백·점·언더스코어를 제거하고 숫자만 남김. 비숫자 잔여 → 빈 결과.
-2. 각 기관의 `(prefix, lengths)` 패턴과 대조.
-3. confidence = `(matched_prefix_length / max_prefix_length) × length_factor` (정확한 길이 일치 시 1.2배, 캡 1.0).
-4. confidence 내림차순 정렬.
+1. 입력에서 하이픈·공백·점·언더스코어를 제거하고 숫자만 남김. 비숫자 잔여 문자가 있으면 빈 결과.
+2. 각 기관은 1개 이상의 `Pattern`을 보유. Pattern은 `templates[]`(예: `YYY-ZZZ-ZZZZZC`)와 선택적 `yCodes`/`additionalRules`로 구성.
+3. 점수 계산:
+   - 정규화된 입력 길이가 템플릿 길이와 일치 → +1
+   - 템플릿의 `Y+` 위치 값이 `yCodes` (문자열 또는 `{from, to}` 범위) 중 하나와 일치 → +1
+   - 각 `additionalRules` 술어가 `true` 반환 → +1
+4. 기관 점수 = 모든 패턴 중 최댓값.
+5. confidence = `min(score / 2, 1.0)` 후 소수 셋째 자리 반올림. 기관별로 confidence 내림차순 정렬, 동률은 선언 순서 유지.
+
+내부 구현은 [`src/detect.ts`](./src/detect.ts)에서 확인할 수 있습니다.
 
 ## 번들 사이즈 / Tree-shaking
 
@@ -82,6 +88,10 @@ import shinhanLogo from 'korean-bank-detector/logos/088'
 전체 목록은 `ALL_INSTITUTIONS` 배열 또는 [`src/data/institutions.ts`](./src/data/institutions.ts) 참조.
 
 현재 v0.1.0에서는 시중은행·인터넷전문은행·지방은행·상호금융 17개 기관을 지원합니다. 증권사 지원은 v0.2.0 로드맵에 포함되어 있습니다.
+
+### 로고 커버리지
+
+v0.1.0은 매칭 데이터 17개 + 로고 1개로 출시됩니다 (신한은행 placeholder). 다른 16개 기관은 `getInstitutionLogo()` 호출 시 `null`을 반환합니다. 공식 BI/CI 기반 로고는 v0.1.x patch 릴리스를 통해 순차 추가될 예정입니다 — [logo PR 가이드](./CONTRIBUTING.md#새-로고-추가수정-simple-icons-모델) 참조.
 
 새 기관 추가가 필요하면 [Issue 등록](https://github.com/mkroo/korean-bank-detector/issues/new?template=institution_request.yml)하거나 PR을 보내주세요. 자세한 절차는 [`CONTRIBUTING.md`](./CONTRIBUTING.md).
 

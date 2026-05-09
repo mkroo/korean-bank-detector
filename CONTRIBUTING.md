@@ -34,25 +34,42 @@ tests/                     # vitest, fixture 포함
 
 ## 새 기관 추가
 
-1. **데이터 출처**: [금융결제원 CMS 계좌번호체계](https://www.kftc.or.kr) 공식 문서에서 코드, 명칭, 과목코드(prefix), 자릿수(length) 확인.
-2. `src/data/institutions.ts`에 다음 형식으로 추가:
+1. **데이터 출처**: [참가기관별 CMS 계좌번호체계](https://www.cmsedi.or.kr/cms/board/workdata) (금융결제원) 공식 문서에서 대표코드, 명칭, 자리수, 계좌번호체계, 과목코드(yCodes)를 확인합니다.
+2. `src/data/institutions.ts`에 다음 형식으로 추가합니다 (실제 시드 데이터의 신한·카카오뱅크 항목을 참고하세요):
 
    ```ts
    {
-     code: '088',          // KFTC 3자리 코드
-     slug: 'shinhan',      // 영문 소문자, kebab-case
+     code: '088',           // KFTC 3자리 대표코드
+     slug: 'shinhan',       // 영문 소문자, kebab-case (파일명·import 키)
      name: '신한은행',
      shortName: '신한',
      englishName: 'Shinhan Bank',
-     category: 'bank',     // 'bank' | 'internet-bank' | 'regional' | 'special' | 'mutual' | 'securities'
+     category: 'bank',      // 'bank' | 'internet-bank' | 'regional' | 'special' | 'mutual' | 'securities'
      patterns: [
-       { prefix: '110', lengths: [11, 12] },
+       {
+         // 템플릿 placeholder: X = 임의 자리, Y = 과목코드 위치, Z = 일련번호, C = 검증번호, T = 거래구분, B = 기타
+         // 하이픈은 매칭 시 제거됩니다.
+         templates: ['YYY-ZZZ-ZZZZZC'],
+         yCodes: [
+           { from: 100, to: 109 },
+           { from: 110, to: 139 },
+           '160',
+           '161',
+         ],
+         // 선택: 정규화된 계좌번호 문자열에 대한 추가 술어
+         additionalRules: [(n) => n.startsWith('1')],
+       },
      ],
    }
    ```
 
-3. `tests/fixtures/account-samples.ts`에 실제 형식 샘플 1~3개 추가.
-4. `pnpm test` — 모든 테스트 통과 확인.
+   - `templates`: 한 개 이상 필요. 길이가 정규화된 입력과 일치하면 점수 +1.
+   - `yCodes`: 첫 번째 `Y+` 위치의 값이 yCodes 중 하나와 일치하면 점수 +1. 문자열 비교 또는 `{from, to}` 범위 비교.
+   - `additionalRules`: 선택. 각 술어가 `true`를 반환하면 점수 +1.
+   - 점수 → confidence: `min(score / 2, 1.0)`로 0~1 범위로 환산.
+
+3. (선택) 새 기관에 대한 픽스처 케이스를 추가해 매칭이 제대로 작동하는지 확인합니다.
+4. `pnpm test`, `pnpm typecheck`, `pnpm lint` 모두 통과해야 합니다.
 
 ## 새 로고 추가/수정 (simple-icons 모델)
 
