@@ -59,6 +59,7 @@
     "@types/node": "^20.19.40",
     "@typescript-eslint/eslint-plugin": "^8.59.2",
     "@typescript-eslint/parser": "^8.59.2",
+    "@vitest/coverage-v8": "^2.1.9",
     "eslint": "^9.39.4",
     "prettier": "^3.8.3",
     "svgo": "^3.3.3",
