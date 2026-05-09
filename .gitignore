@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+
+# Generated logo entries (built from assets/)
+src/data/logos.ts
+src/logos/
+
+# OS / editor
+.DS_Store
+*.log
+.vscode/
+.idea/
