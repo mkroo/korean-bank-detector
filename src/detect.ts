@@ -1,4 +1,4 @@
-import type { DetectResult, InstitutionRecord, Pattern } from './types'
+import type { DetectResult, Institution, InstitutionRecord, Pattern } from './types'
 import { normalize } from './normalize'
 import { INSTITUTIONS } from './data/institutions'
 
@@ -60,4 +60,27 @@ export function detect(input: string): DetectResult[] {
     confidence: m.confidence,
     matchedPattern: m.pattern.prefix,
   }))
+}
+
+export function detectOne(input: string): DetectResult | null {
+  return detect(input)[0] ?? null
+}
+
+export function getInstitution(code: string): Institution | null {
+  const record = INSTITUTIONS.find((i) => i.code === code)
+  if (!record) return null
+  return {
+    code: record.code,
+    name: record.name,
+    shortName: record.shortName,
+    englishName: record.englishName,
+    category: record.category,
+    slug: record.slug,
+  }
+}
+
+export function getInstitutionLogo(code: string): string | null {
+  // Logo map populated by build script; until built, returns null.
+  // Implementation wired in Task 14.
+  return null
 }
