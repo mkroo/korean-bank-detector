@@ -45,6 +45,7 @@
     "LICENSE"
   ],
   "scripts": {
+    "prebuild": "tsx scripts/build-logos.ts",
     "build": "tsup",
     "dev": "tsup --watch",
     "test": "vitest run",

@@ -1,6 +1,7 @@
 import type { DetectResult, Institution, InstitutionRecord, Pattern } from './types'
 import { normalize } from './normalize'
 import { INSTITUTIONS } from './data/institutions'
+import { LOGOS } from './data/logos'
 import { toInstitution } from './utils'
 
 const MAX_PREFIX = INSTITUTIONS.reduce((max, inst) => {
@@ -53,7 +54,7 @@ export function detect(input: string): DetectResult[] {
 
   return matches.map((m) => ({
     institution: toInstitution(m.record),
-    logo: '',
+    logo: LOGOS[m.record.code] ?? '',
     confidence: m.confidence,
     matchedPattern: m.pattern.prefix,
   }))
@@ -68,8 +69,6 @@ export function getInstitution(code: string): Institution | null {
   return record ? toInstitution(record) : null
 }
 
-export function getInstitutionLogo(_code: string): string | null {
-  // Logo map populated by build script; until built, always returns null.
-  // Implementation wired in Task 14.
-  return null
+export function getInstitutionLogo(code: string): string | null {
+  return LOGOS[code] ?? null
 }

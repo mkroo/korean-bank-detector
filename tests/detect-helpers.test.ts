@@ -27,14 +27,14 @@ describe('getInstitution', () => {
 })
 
 describe('getInstitutionLogo', () => {
-  // Stub returns null until Phase C wires the LOGOS map.
-  // These assertions tighten once Task 14 lands the build pipeline.
-
-  it('returns null for known code (stub before Phase C)', () => {
-    expect(getInstitutionLogo('088')).toBeNull()
-  })
-
   it('returns null for unknown code', () => {
     expect(getInstitutionLogo('999')).toBeNull()
+  })
+})
+
+describe('getInstitutionLogo with seeded logo', () => {
+  it('returns SVG string for 088 (신한)', () => {
+    const logo = getInstitutionLogo('088')
+    expect(logo).toContain('<svg')
   })
 })
