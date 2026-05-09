@@ -1,6 +1,6 @@
 {
   "name": "korean-bank-detector",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Detect Korean bank from account number — returns name, KFTC code, and brand logo (SVG). Toss-style.",
   "keywords": [
     "korean",
