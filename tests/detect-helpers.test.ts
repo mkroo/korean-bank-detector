@@ -27,10 +27,11 @@ describe('getInstitution', () => {
 })
 
 describe('getInstitutionLogo', () => {
-  it('returns string when logo exists', () => {
-    // No logos seeded yet → null is acceptable here
-    const logo = getInstitutionLogo('088')
-    expect(logo === null || typeof logo === 'string').toBe(true)
+  // Stub returns null until Phase C wires the LOGOS map.
+  // These assertions tighten once Task 14 lands the build pipeline.
+
+  it('returns null for known code (stub before Phase C)', () => {
+    expect(getInstitutionLogo('088')).toBeNull()
   })
 
   it('returns null for unknown code', () => {

@@ -1,6 +1,7 @@
 import type { DetectResult, Institution, InstitutionRecord, Pattern } from './types'
 import { normalize } from './normalize'
 import { INSTITUTIONS } from './data/institutions'
+import { toInstitution } from './utils'
 
 const MAX_PREFIX = INSTITUTIONS.reduce((max, inst) => {
   for (const p of inst.patterns) {
@@ -11,6 +12,7 @@ const MAX_PREFIX = INSTITUTIONS.reduce((max, inst) => {
 
 const LENGTH_FACTOR_EXACT = 1.2
 const LENGTH_FACTOR_PARTIAL = 1.0
+const CONFIDENCE_PRECISION = 1000
 
 type Match = {
   record: InstitutionRecord
@@ -21,7 +23,8 @@ type Match = {
 function score(prefixLength: number, lengthExact: boolean): number {
   const base = prefixLength / MAX_PREFIX
   const factor = lengthExact ? LENGTH_FACTOR_EXACT : LENGTH_FACTOR_PARTIAL
-  return Math.min(base * factor, 1.0)
+  const raw = Math.min(base * factor, 1.0)
+  return Math.round(raw * CONFIDENCE_PRECISION) / CONFIDENCE_PRECISION
 }
 
 function findMatches(digits: string): Match[] {
@@ -42,20 +45,14 @@ function findMatches(digits: string): Match[] {
 
 export function detect(input: string): DetectResult[] {
   const digits = normalize(input)
-  if (!digits) return []
+  if (digits === '') return []
 
   const matches = findMatches(digits)
+  // Stable sort by confidence descending; ties preserve INSTITUTIONS declaration order.
   matches.sort((a, b) => b.confidence - a.confidence)
 
   return matches.map((m) => ({
-    institution: {
-      code: m.record.code,
-      name: m.record.name,
-      shortName: m.record.shortName,
-      englishName: m.record.englishName,
-      category: m.record.category,
-      slug: m.record.slug,
-    },
+    institution: toInstitution(m.record),
     logo: '',
     confidence: m.confidence,
     matchedPattern: m.pattern.prefix,
@@ -68,19 +65,11 @@ export function detectOne(input: string): DetectResult | null {
 
 export function getInstitution(code: string): Institution | null {
   const record = INSTITUTIONS.find((i) => i.code === code)
-  if (!record) return null
-  return {
-    code: record.code,
-    name: record.name,
-    shortName: record.shortName,
-    englishName: record.englishName,
-    category: record.category,
-    slug: record.slug,
-  }
+  return record ? toInstitution(record) : null
 }
 
 export function getInstitutionLogo(_code: string): string | null {
-  // Logo map populated by build script; until built, returns null.
+  // Logo map populated by build script; until built, always returns null.
   // Implementation wired in Task 14.
   return null
 }
