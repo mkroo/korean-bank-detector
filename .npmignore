@@ -6,7 +6,8 @@ assets/
 .github/
 .changeset/
 *.config.ts
-.eslintrc.cjs
+*.config.js
+eslint.config.*
 .prettierrc
 .editorconfig
 .nvmrc
