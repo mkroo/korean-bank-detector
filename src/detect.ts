@@ -2,11 +2,26 @@ import type { DetectResult, InstitutionRecord, Pattern } from './types'
 import { normalize } from './normalize'
 import { INSTITUTIONS } from './data/institutions'
 
+const MAX_PREFIX = INSTITUTIONS.reduce((max, inst) => {
+  for (const p of inst.patterns) {
+    if (p.prefix.length > max) max = p.prefix.length
+  }
+  return max
+}, 1)
+
+const LENGTH_FACTOR_EXACT = 1.2
+const LENGTH_FACTOR_PARTIAL = 1.0
+
 type Match = {
   record: InstitutionRecord
   pattern: Pattern
-  prefixLength: number
-  lengthExact: boolean
+  confidence: number
+}
+
+function score(prefixLength: number, lengthExact: boolean): number {
+  const base = prefixLength / MAX_PREFIX
+  const factor = lengthExact ? LENGTH_FACTOR_EXACT : LENGTH_FACTOR_PARTIAL
+  return Math.min(base * factor, 1.0)
 }
 
 function findMatches(digits: string): Match[] {
@@ -17,8 +32,7 @@ function findMatches(digits: string): Match[] {
         matches.push({
           record,
           pattern,
-          prefixLength: pattern.prefix.length,
-          lengthExact: pattern.lengths.includes(digits.length),
+          confidence: score(pattern.prefix.length, pattern.lengths.includes(digits.length)),
         })
       }
     }
@@ -31,6 +45,8 @@ export function detect(input: string): DetectResult[] {
   if (!digits) return []
 
   const matches = findMatches(digits)
+  matches.sort((a, b) => b.confidence - a.confidence)
+
   return matches.map((m) => ({
     institution: {
       code: m.record.code,
@@ -41,7 +57,7 @@ export function detect(input: string): DetectResult[] {
       slug: m.record.slug,
     },
     logo: '',
-    confidence: 0,
+    confidence: m.confidence,
     matchedPattern: m.pattern.prefix,
   }))
 }
