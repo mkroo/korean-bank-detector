@@ -25,7 +25,7 @@ describe('public API surface', () => {
 
   it('ALL_INSTITUTIONS items do not leak patterns', () => {
     for (const inst of api.ALL_INSTITUTIONS) {
-      expect((inst as any).patterns).toBeUndefined()
+      expect((inst as unknown as Record<string, unknown>).patterns).toBeUndefined()
     }
   })
 })

@@ -79,7 +79,7 @@ export function getInstitution(code: string): Institution | null {
   }
 }
 
-export function getInstitutionLogo(code: string): string | null {
+export function getInstitutionLogo(_code: string): string | null {
   // Logo map populated by build script; until built, returns null.
   // Implementation wired in Task 14.
   return null
