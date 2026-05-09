@@ -1,0 +1,31 @@
+name: 로고 Takedown 요청
+description: 본 저장소의 특정 기관 로고 제거 요청 (해당 기관 또는 공식 대리인 전용)
+labels: ["takedown", "trademark"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        본 폼은 금융기관의 공식 또는 권한 있는 대리인을 위한 것입니다.
+        영업일 기준 3일 이내 해당 로고를 제거하고 patch 릴리스합니다.
+  - type: input
+    id: institution
+    attributes:
+      label: 대상 기관명
+    validations:
+      required: true
+  - type: input
+    id: code
+    attributes:
+      label: KFTC 코드
+    validations:
+      required: true
+  - type: input
+    id: requester
+    attributes:
+      label: 요청자 정보 (담당 부서, 연락처)
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: 요청 사유

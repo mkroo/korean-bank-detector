@@ -1,0 +1,36 @@
+name: 새 기관 추가 요청
+description: 지원되지 않는 금융기관 추가 요청
+labels: ["data", "enhancement"]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: 기관 정식 명칭
+    validations:
+      required: true
+  - type: input
+    id: code
+    attributes:
+      label: KFTC 코드 (3자리)
+      placeholder: "088"
+    validations:
+      required: true
+  - type: textarea
+    id: patterns
+    attributes:
+      label: 계좌번호 패턴 (KFTC CMS 문서 기준 prefix·자릿수)
+      placeholder: |
+        - 110-xxx-xxxxxx (12자리)
+        - 100-xxx-xxxxxx (12자리)
+    validations:
+      required: true
+  - type: input
+    id: kftc_source
+    attributes:
+      label: KFTC CMS 문서 출처 (페이지/날짜)
+    validations:
+      required: true
+  - type: input
+    id: logo_url
+    attributes:
+      label: 공식 BI/CI 페이지 URL (선택)
