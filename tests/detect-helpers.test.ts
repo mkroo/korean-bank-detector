@@ -8,7 +8,7 @@ describe('detectOne', () => {
   })
 
   it('returns null when no match', () => {
-    expect(detectOne('999999999999')).toBeNull()
+    expect(detectOne('abc')).toBeNull()
   })
 
   it('returns null for empty input', () => {

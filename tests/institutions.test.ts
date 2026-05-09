@@ -30,19 +30,26 @@ describe('INSTITUTIONS data integrity', () => {
     }
   })
 
-  it('every pattern prefix is digits-only', () => {
+  it('every pattern has at least one template', () => {
     for (const inst of INSTITUTIONS) {
       for (const p of inst.patterns) {
-        expect(p.prefix).toMatch(/^\d+$/)
+        expect(p.templates.length).toBeGreaterThan(0)
       }
     }
   })
 
-  it('every pattern has at least one length', () => {
+  it('every template only contains digits, hyphens, or letters X/Y/Z/C/T/B/A/N/S', () => {
     for (const inst of INSTITUTIONS) {
       for (const p of inst.patterns) {
-        expect(p.lengths.length).toBeGreaterThan(0)
+        for (const t of p.templates) {
+          // Allow digits, hyphens, and uppercase/lowercase placeholder letters
+          expect(t).toMatch(/^[0-9\-XYZCTBASNxyzcbtasn]+$/)
+        }
       }
     }
+  })
+
+  it('code count is 17', () => {
+    expect(INSTITUTIONS.length).toBe(17)
   })
 })

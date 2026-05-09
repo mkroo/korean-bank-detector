@@ -1,62 +1,139 @@
-import type { DetectResult, Institution, InstitutionRecord, Pattern } from './types'
+import type { DetectResult, Institution, Pattern, YCodeRange } from './types'
 import { normalize } from './normalize'
 import { INSTITUTIONS } from './data/institutions'
 import { LOGOS } from './data/logos'
 import { toInstitution } from './utils'
 
-const MAX_PREFIX = INSTITUTIONS.reduce((max, inst) => {
-  for (const p of inst.patterns) {
-    if (p.prefix.length > max) max = p.prefix.length
+function matchesYCode(
+  yCodes: (string | YCodeRange)[],
+  slice: string
+): boolean {
+  for (const yCode of yCodes) {
+    if (typeof yCode === 'string') {
+      if (yCode === slice) return true
+    } else {
+      const n = Number.parseInt(slice, 10)
+      if (!Number.isNaN(n) && yCode.from <= n && n <= yCode.to) return true
+    }
   }
-  return max
-}, 1)
-
-const LENGTH_FACTOR_EXACT = 1.2
-const LENGTH_FACTOR_PARTIAL = 1.0
-const CONFIDENCE_PRECISION = 1000
-
-type Match = {
-  record: InstitutionRecord
-  pattern: Pattern
-  confidence: number
+  return false
 }
 
-function score(prefixLength: number, lengthExact: boolean): number {
-  const base = prefixLength / MAX_PREFIX
-  const factor = lengthExact ? LENGTH_FACTOR_EXACT : LENGTH_FACTOR_PARTIAL
-  const raw = Math.min(base * factor, 1.0)
-  return Math.round(raw * CONFIDENCE_PRECISION) / CONFIDENCE_PRECISION
+/** Returns true if every literal digit in the stripped template matches the normalized input at that position. */
+function literalDigitsMatch(stripped: string, normalized: string): boolean {
+  for (let i = 0; i < stripped.length && i < normalized.length; i++) {
+    const ch = stripped[i]
+    if (ch >= '0' && ch <= '9') {
+      if (normalized[i] !== ch) return false
+    }
+  }
+  return true
 }
 
-function findMatches(digits: string): Match[] {
-  const matches: Match[] = []
-  for (const record of INSTITUTIONS) {
-    for (const pattern of record.patterns) {
-      if (digits.startsWith(pattern.prefix)) {
-        matches.push({
-          record,
-          pattern,
-          confidence: score(pattern.prefix.length, pattern.lengths.includes(digits.length)),
-        })
+function scorePattern(pattern: Pattern, normalized: string): { score: number; matchedTemplate: string } {
+  let maxScore = 0
+  let bestTemplate = ''
+
+  for (const template of pattern.templates) {
+    let patternScore = 0
+    const stripped = template.replace(/-/g, '').toUpperCase()
+
+    // Check literal digit positions first — if any literal digit doesn't match, skip
+    if (!literalDigitsMatch(stripped, normalized)) {
+      continue
+    }
+
+    // Find first run of Y+ characters
+    const yMatch = stripped.match(/Y+/)
+    if (yMatch && yMatch.index !== undefined) {
+      const yStart = yMatch.index
+      const yLen = yMatch[0].length
+      const yEnd = yStart + yLen
+
+      if (pattern.yCodes && pattern.yCodes.length > 0) {
+        // Pattern declares yCodes: yCode must match or template contributes 0
+        if (normalized.length >= yEnd) {
+          const slice = normalized.slice(yStart, yEnd)
+          if (matchesYCode(pattern.yCodes, slice)) {
+            patternScore += 1
+          } else {
+            // yCode mismatch: this template contributes nothing
+            continue
+          }
+        } else {
+          // Not enough digits to reach Y position: no match
+          continue
+        }
+      }
+      // If no yCodes defined but template has Y: treat as wildcard, no score from Y
+    }
+
+    if (stripped.length === normalized.length) {
+      patternScore += 1
+    }
+
+    if (patternScore > maxScore) {
+      maxScore = patternScore
+      bestTemplate = stripped
+    }
+  }
+
+  // Apply additionalRules only when at least one template produced a base score > 0
+  let finalScore = maxScore
+  if (maxScore > 0 && pattern.additionalRules) {
+    for (const rule of pattern.additionalRules) {
+      if (rule(normalized)) {
+        finalScore += 1
       }
     }
   }
-  return matches
+
+  return { score: finalScore, matchedTemplate: bestTemplate }
+}
+
+type InstitutionMatch = {
+  institution: Institution
+  code: string
+  score: number
+  matchedTemplate: string
 }
 
 export function detect(input: string): DetectResult[] {
-  const digits = normalize(input)
-  if (digits === '') return []
+  const normalized = normalize(input)
+  if (normalized === '') return []
 
-  const matches = findMatches(digits)
-  // Stable sort by confidence descending; ties preserve INSTITUTIONS declaration order.
-  matches.sort((a, b) => b.confidence - a.confidence)
+  const institutionMatches: InstitutionMatch[] = []
 
-  return matches.map((m) => ({
-    institution: toInstitution(m.record),
-    logo: LOGOS[m.record.code] ?? '',
-    confidence: m.confidence,
-    matchedPattern: m.pattern.prefix,
+  for (const record of INSTITUTIONS) {
+    let instScore = 0
+    let instTemplate = ''
+
+    for (const pattern of record.patterns) {
+      const { score, matchedTemplate } = scorePattern(pattern, normalized)
+      if (score > instScore) {
+        instScore = score
+        instTemplate = matchedTemplate
+      }
+    }
+
+    if (instScore > 0) {
+      institutionMatches.push({
+        institution: toInstitution(record),
+        code: record.code,
+        score: instScore,
+        matchedTemplate: instTemplate,
+      })
+    }
+  }
+
+  // Stable sort by score descending; ties preserve INSTITUTIONS declaration order.
+  institutionMatches.sort((a, b) => b.score - a.score)
+
+  return institutionMatches.map((m) => ({
+    institution: m.institution,
+    logo: LOGOS[m.code] ?? '',
+    confidence: Math.round(Math.min(m.score / 2, 1.0) * 1000) / 1000,
+    matchedPattern: m.matchedTemplate,
   }))
 }
 
