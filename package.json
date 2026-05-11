@@ -1,0 +1,75 @@
+{
+  "name": "korean-bank-detector",
+  "version": "0.1.0",
+  "description": "Detect Korean bank from account number — returns name, KFTC code, and brand logo (SVG). Toss-style.",
+  "keywords": [
+    "korean",
+    "korea",
+    "bank",
+    "account",
+    "detect",
+    "kftc",
+    "logo",
+    "toss",
+    "svg"
+  ],
+  "homepage": "https://github.com/mkroo/korean-bank-detector#readme",
+  "bugs": "https://github.com/mkroo/korean-bank-detector/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mkroo/korean-bank-detector.git"
+  },
+  "license": "MIT",
+  "author": "mkroo",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./logos/*": {
+      "types": "./dist/logos/*.d.ts",
+      "import": "./dist/logos/*.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "TRADEMARKS.md",
+    "LICENSE"
+  ],
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "prebuild": "tsx scripts/build-logos.ts",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
+    "lint": "eslint . --no-error-on-unmatched-pattern",
+    "format": "prettier --write \"**/*.{ts,md,json,yml,yaml}\"",
+    "typecheck": "tsc --noEmit",
+    "release": "changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.31.0",
+    "@types/node": "^20.19.40",
+    "@typescript-eslint/eslint-plugin": "^8.59.2",
+    "@typescript-eslint/parser": "^8.59.2",
+    "@vitest/coverage-v8": "^2.1.9",
+    "eslint": "^9.39.4",
+    "prettier": "^3.8.3",
+    "svgo": "^3.3.3",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.9"
+  }
+}

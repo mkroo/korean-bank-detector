@@ -1,6 +1,6 @@
 # korean-bank-detector — Design
 
-**Status**: Approved (2026-05-08)
+**Status**: Approved (2026-05-08); **Sections 3.4 / 4.1 superseded by implementation (2026-05-09)** — see note in those sections.
 **Owner**: @mkroo
 **Repo**: https://github.com/mkroo/korean-bank-detector
 
@@ -86,6 +86,8 @@ export default svgString
 
 ### 3.4 Confidence scoring
 
+> ⚠️ **Superseded (2026-05-09).** The released v0.1.0 implementation uses a position-based scoring algorithm (yCode match + length match + additionalRules), not the prefix-length formula below. See `src/detect.ts` and Section 9a of [the README](../../README.md#동작-원리). The text below is preserved for historical context.
+
 ```
 let MAX_PREFIX = max(p.prefix.length for all institutions p)   // 데이터셋 상수
 
@@ -108,6 +110,8 @@ confidence = min(prefix_score * length_factor, 1.0)
 ## 4. Data Model
 
 ### 4.1 Institution record (internal)
+
+> ⚠️ **Superseded (2026-05-09).** The released v0.1.0 implementation uses `Pattern = { templates: string[]; yCodes?: (string | { from, to })[]; additionalRules?: ((normalized: string) => boolean)[] }`, not the `{ prefix, lengths }` shape below. See `src/types.ts`. The text below is preserved for historical context.
 
 ```ts
 type Pattern = {

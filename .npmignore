@@ -1,0 +1,15 @@
+src/
+tests/
+scripts/
+docs/
+assets/
+.github/
+.changeset/
+*.config.ts
+*.config.js
+eslint.config.*
+.prettierrc
+.editorconfig
+.nvmrc
+tsconfig.json
+pnpm-lock.yaml
