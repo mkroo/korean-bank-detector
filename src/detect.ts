@@ -1,8 +1,22 @@
-import type { DetectResult, Institution, Pattern, YCodeRange } from './types'
+import type {
+  DetectResult,
+  Institution,
+  InstitutionLogo,
+  LogoVariant,
+  Pattern,
+  YCodeRange,
+} from './types'
 import { normalize } from './normalize'
 import { INSTITUTIONS } from './data/institutions'
-import { LOGOS } from './data/logos'
+import { SYMBOL_LOGOS, WORDMARK_LOGOS } from './data/logos'
 import { toInstitution } from './utils'
+
+function getLogoBundle(code: string): InstitutionLogo {
+  return {
+    symbol: SYMBOL_LOGOS[code] ?? null,
+    wordmark: WORDMARK_LOGOS[code] ?? null,
+  }
+}
 
 function matchesYCode(
   yCodes: (string | YCodeRange)[],
@@ -131,7 +145,7 @@ export function detect(input: string): DetectResult[] {
 
   return institutionMatches.map((m) => ({
     institution: m.institution,
-    logo: LOGOS[m.code] ?? '',
+    logo: getLogoBundle(m.code),
     confidence: Math.round(Math.min(m.score / 2, 1.0) * 1000) / 1000,
     matchedPattern: m.matchedTemplate,
   }))
@@ -146,6 +160,17 @@ export function getInstitution(code: string): Institution | null {
   return record ? toInstitution(record) : null
 }
 
-export function getInstitutionLogo(code: string): string | null {
-  return LOGOS[code] ?? null
+/**
+ * Returns the SVG string for the requested logo variant, or null when the
+ * institution code is unknown or the asset is not yet sourced.
+ *
+ * @param code KFTC 3-digit institution code
+ * @param variant 'symbol' (default — square mark) or 'wordmark' (rectangular lockup)
+ */
+export function getInstitutionLogo(
+  code: string,
+  variant: LogoVariant = 'symbol',
+): string | null {
+  const map = variant === 'symbol' ? SYMBOL_LOGOS : WORDMARK_LOGOS
+  return map[code] ?? null
 }

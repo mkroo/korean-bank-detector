@@ -73,8 +73,10 @@ function renderEmpty(message: string, icon: string): string {
 
 function renderCandidate(r: DetectResult): string {
   const initial = r.institution.shortName.slice(0, 2)
-  const logoMarkup = r.logo && r.logo.length > 0
-    ? r.logo
+  // Prefer the square symbol mark for the 56×56 slot; fall back to wordmark; finally initials.
+  const svg = r.logo.symbol ?? r.logo.wordmark ?? null
+  const logoMarkup = svg
+    ? svg
     : `<span class="logo-initial">${escapeHtml(initial)}</span>`
   const pct = Math.round(r.confidence * 100)
   const category = CATEGORY_LABEL[r.institution.category]
@@ -145,7 +147,10 @@ function renderSnippet(value: string, results: DetectResult[]): void {
     },
     confidence: ${top.confidence},
     matchedPattern: ${JSON.stringify(top.matchedPattern)},
-    logo: ${top.logo ? "'<svg ...>'" : "''"},
+    logo: {
+      symbol: ${top.logo.symbol ? "'<svg ...>'" : 'null'},
+      wordmark: ${top.logo.wordmark ? "'<svg ...>'" : 'null'},
+    },
   },${more > 0 ? `\n  // + ${more} more` : ''}
 ]`
     : '[]'

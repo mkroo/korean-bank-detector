@@ -33,9 +33,13 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./logos/*": {
-      "types": "./dist/logos/*.d.ts",
-      "import": "./dist/logos/*.js"
+    "./logos/symbol/*": {
+      "types": "./dist/logos/symbol/*.d.ts",
+      "import": "./dist/logos/symbol/*.js"
+    },
+    "./logos/wordmark/*": {
+      "types": "./dist/logos/wordmark/*.d.ts",
+      "import": "./dist/logos/wordmark/*.js"
     }
   },
   "files": [

@@ -41,7 +41,8 @@ console.log(top?.institution.name) // '신한은행'
 
 ```tsx
 const top = detectOne(accountNumber)
-return top ? <span dangerouslySetInnerHTML={{ __html: top.logo }} /> : null
+const svg = top?.logo.symbol ?? top?.logo.wordmark
+return svg ? <span dangerouslySetInnerHTML={{ __html: svg }} /> : null
 ```
 
 ### 트리쉐이킹 친화 sub-path import
@@ -49,8 +50,25 @@ return top ? <span dangerouslySetInnerHTML={{ __html: top.logo }} /> : null
 특정 은행 로고만 필요할 때 전체 데이터셋 번들 회피:
 
 ```ts
-import shinhanLogo from 'korean-bank-detector/logos/088'
-// shinhanLogo: string (SVG)
+import shinhanSymbol from 'korean-bank-detector/logos/symbol/088'
+import shinhanWordmark from 'korean-bank-detector/logos/wordmark/088'
+// 둘 다 string (SVG)
+```
+
+### 로고 변형 (variant)
+
+각 기관은 두 변형으로 제공됩니다:
+
+- **symbol** (정사각 심볼마크) — UI의 작은 슬롯, 리스트 아이콘에 적합. 토스 결제 화면과 비슷한 룩.
+- **wordmark** (가로형 lockup) — 푸터, 마케팅, 영수증 등 가로 공간에 적합.
+
+```ts
+const result = detectOne(accountNumber)
+// result.logo: { symbol: string | null, wordmark: string | null }
+
+getInstitutionLogo('088')              // symbol (기본값)
+getInstitutionLogo('088', 'symbol')    // symbol 명시
+getInstitutionLogo('088', 'wordmark')  // wordmark
 ```
 
 ## API
@@ -60,7 +78,7 @@ import shinhanLogo from 'korean-bank-detector/logos/088'
 | `detect` | `(input: string) => DetectResult[]` | 모든 후보를 confidence 내림차순으로 반환 |
 | `detectOne` | `(input: string) => DetectResult \| null` | 최상위 후보 |
 | `getInstitution` | `(code: string) => Institution \| null` | 코드로 기관 조회 |
-| `getInstitutionLogo` | `(code: string) => string \| null` | 코드로 SVG 조회 |
+| `getInstitutionLogo` | `(code: string, variant?: 'symbol' \| 'wordmark') => string \| null` | 코드로 SVG 조회 (기본 symbol) |
 | `ALL_INSTITUTIONS` | `readonly Institution[]` | 전체 기관 메타데이터 |
 
 타입 상세는 `src/types.ts` 참조.
@@ -91,13 +109,18 @@ import shinhanLogo from 'korean-bank-detector/logos/088'
 
 현재 v0.1.0에서는 시중은행·인터넷전문은행·지방은행·상호금융 17개 기관을 지원합니다. 증권사 지원은 v0.2.0 로드맵에 포함되어 있습니다.
 
-### 로고 커버리지
+### 로고 커버리지 (v0.1.0)
 
-v0.1.0은 17개 기관 중 **13개**의 공식 SVG 로고를 포함합니다 (Wikimedia Commons 큐레이션 + 각 기관 공식 BI 출처). 다음 4개는 공식 SVG를 찾지 못해 `getInstitutionLogo()`가 `null`을 반환합니다:
+| 변형 | 확보 | 누락 |
+|---|---|---|
+| **symbol** (정사각 심볼마크) | 9개 | 8개 |
+| **wordmark** (가로 lockup) | 13개 | 4개 |
 
-- KDB산업은행 (002), 부산은행 (032), 아이엠뱅크 (031), 새마을금고 (045)
+- **symbol** 확보: NH농협, 농협중앙회, IBK, 하나, 카카오뱅크, K뱅크, SC제일, 우리, 씨티
+- **wordmark** 확보: 위 9개 + 신한, KB국민, 토스뱅크, 수협
+- **둘 다 누락**: KDB산업(002), 아이엠뱅크(031), 부산은행(032), 새마을금고(045) — 공식 SVG가 JPG/AI/PNG로만 제공됨
 
-이들은 [logo PR 가이드](./CONTRIBUTING.md#새-로고-추가수정-simple-icons-모델)에 따라 공식 BI/CI에서 SVG가 확보되는 대로 patch 릴리스에 추가됩니다.
+누락된 로고는 [logo PR 가이드](./CONTRIBUTING.md#새-로고-추가수정-simple-icons-모델)에 따라 공식 BI/CI에서 SVG가 확보되는 대로 patch 릴리스에 추가됩니다.
 
 새 기관 추가가 필요하면 [Issue 등록](https://github.com/mkroo/korean-bank-detector/issues/new?template=institution_request.yml)하거나 PR을 보내주세요. 자세한 절차는 [`CONTRIBUTING.md`](./CONTRIBUTING.md).
 
