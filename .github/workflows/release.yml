@@ -1,8 +1,14 @@
 name: Release
 
+# Temporarily disabled until NPM_TOKEN is configured in repo secrets
+# (Settings → Secrets and variables → Actions). To re-enable, restore the
+# `on:` block below and remove `workflow_dispatch` if you don't want manual runs.
+#
+# on:
+#   push:
+#     branches: [main]
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
