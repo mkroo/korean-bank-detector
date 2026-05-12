@@ -17,6 +17,20 @@ pnpm test
 
 요구사항: Node 20+, pnpm 9+.
 
+## 데모 페이지 로컬 실행
+
+`examples/demo`는 라이브러리를 시연하는 Vite 기반 정적 사이트입니다. 두 터미널로 라이브러리 watch + 데모 dev를 함께 띄우면 라이브 HMR을 누릴 수 있습니다.
+
+```bash
+# 터미널 1 — 라이브러리 watch
+pnpm dev               # tsup --watch (dist/ 갱신)
+
+# 터미널 2 — 데모 dev
+pnpm -C examples/demo dev
+```
+
+main 푸시 시 GitHub Actions `Deploy Demo` 워크플로가 GitHub Pages로 자동 배포합니다.
+
 ## 프로젝트 구조
 
 ```
