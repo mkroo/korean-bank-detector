@@ -9,6 +9,25 @@ const ASSETS_DIR = join(process.cwd(), 'assets', 'logos')
 const LOGOS_OUT_DIR = join(process.cwd(), 'src', 'logos')
 const LOGO_MAP_PATH = join(process.cwd(), 'src', 'data', 'logos.ts')
 
+// Ensure the SVG root has viewBox + preserveAspectRatio and drop pixel
+// width/height so the parent container (CSS) controls sizing without
+// distortion or clipping. Idempotent: skips attributes already present.
+function normalizeRootAttrs(svg: string): string {
+  // Drop width/height attributes on the root <svg ...> tag if they aren't '100%'
+  svg = svg.replace(
+    /<svg\b([^>]*)>/i,
+    (_, attrs: string) => {
+      let cleaned = attrs
+        .replace(/\s(width|height)="(?!100%")[^"]*"/gi, '')
+      if (!/preserveAspectRatio=/i.test(cleaned)) {
+        cleaned += ' preserveAspectRatio="xMidYMid meet"'
+      }
+      return `<svg${cleaned}>`
+    },
+  )
+  return svg
+}
+
 function readSvgs(): Map<string, string> {
   if (!existsSync(ASSETS_DIR)) return new Map()
   const map = new Map<string, string>()
@@ -16,8 +35,24 @@ function readSvgs(): Map<string, string> {
     if (extname(file).toLowerCase() !== '.svg') continue
     const slug = basename(file, '.svg')
     const raw = readFileSync(join(ASSETS_DIR, file), 'utf8')
-    const optimized = optimize(raw, { multipass: true }).data
-    map.set(slug, optimized)
+    const optimized = optimize(raw, {
+      multipass: true,
+      plugins: [
+        {
+          name: 'preset-default',
+          params: {
+            overrides: {
+              // Keep viewBox; without it, container-based sizing breaks
+              removeViewBox: false,
+            },
+          },
+        },
+        // Strip the fixed pixel width/height on the root element so
+        // the container controls sizing.
+        'removeDimensions',
+      ],
+    }).data
+    map.set(slug, normalizeRootAttrs(optimized))
   }
   return map
 }
