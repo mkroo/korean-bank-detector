@@ -6,6 +6,8 @@
 [![CI](https://github.com/mkroo/korean-bank-detector/actions/workflows/ci.yml/badge.svg)](https://github.com/mkroo/korean-bank-detector/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
+🌐 **[라이브 데모](https://mkroo.github.io/korean-bank-detector/)** — 브라우저에서 바로 사용해보기.
+
 ## 특징
 
 - KFTC CMS 계좌번호체계 공식 데이터 기반
