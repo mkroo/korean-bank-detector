@@ -1,6 +1,8 @@
 export type {
   Institution,
   InstitutionCategory,
+  InstitutionLogo,
+  LogoVariant,
   DetectResult,
 } from './types'
 

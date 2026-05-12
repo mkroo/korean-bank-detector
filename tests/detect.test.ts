@@ -28,6 +28,15 @@ describe('detect', () => {
     expect(results[0].institution.name).toBe('신한은행')
   })
 
+  it('exposes both logo variants on DetectResult', () => {
+    const result = detect('110436387740')[0]
+    expect(result).toBeDefined()
+    expect(result.logo).toHaveProperty('symbol')
+    expect(result.logo).toHaveProperty('wordmark')
+    // 088 has a wordmark seeded; symbol may or may not be present.
+    expect(result.logo.wordmark).toContain('<svg')
+  })
+
   it('returns matchedPattern for debugging (hyphens stripped, uppercased)', () => {
     const results = detect('110436387740')
     expect(results[0].matchedPattern).toMatch(/^[A-Z0-9]+$/)

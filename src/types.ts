@@ -33,9 +33,18 @@ export type Pattern = {
 
 export type InstitutionRecord = Institution & { patterns: Pattern[] }
 
+/** Logo variant: square symbol-only mark, or rectangular wordmark/lockup. */
+export type LogoVariant = 'symbol' | 'wordmark'
+
+/** SVG strings for each logo variant. Either can be null when not yet sourced. */
+export type InstitutionLogo = {
+  symbol: string | null
+  wordmark: string | null
+}
+
 export type DetectResult = {
   institution: Institution
-  logo: string
+  logo: InstitutionLogo
   confidence: number
   /** First matched template (hyphens stripped, uppercased). */
   matchedPattern: string

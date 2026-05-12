@@ -87,16 +87,25 @@ tests/                     # vitest, fixture 포함
 
 ## 새 로고 추가/수정 (simple-icons 모델)
 
-본 프로젝트는 각 금융기관의 **공식 BI/CI 페이지에서 직접 다운받은 SVG**만 받습니다.
+본 프로젝트는 각 금융기관의 **공식 BI/CI 페이지에서 직접 다운받은 SVG**만 받습니다. 로고는 두 가지 변형(variant)으로 구분합니다:
 
-1. **출처**: 해당 기관 공식 홈페이지의 BI/CI 또는 보도자료 페이지. 서드파티 사이트, 스크린샷, 임의 재현 SVG는 받지 않습니다.
-2. **viewBox 표준화**: `0 0 64 64`로 정규화. 비율 유지하며 중앙 정렬.
-3. **SVGO 최적화**: 빌드 시 자동 최적화되지만, 수동 최적화도 권장.
-4. **a11y**: `<svg role="img" aria-label="<bank name>">` + `<title>` 포함.
-5. **저장 위치**: `assets/logos/<slug>.svg` — slug는 institution record와 일치해야 함.
+| 변형 | 형태 | 사용처 | 저장 경로 |
+|---|---|---|---|
+| **symbol** | 정사각 심볼마크 only | UI 작은 슬롯, 리스트 아이콘 | `assets/logos/symbol/<slug>.svg` |
+| **wordmark** | 가로형 워드마크/lockup | 큰 슬롯, 푸터, 마케팅 카피 | `assets/logos/wordmark/<slug>.svg` |
+
+각 기관에 대해 둘 중 하나만 있어도 OK이고, 둘 다 있으면 더 좋습니다.
+
+### 절차
+
+1. **출처**: 해당 기관 공식 홈페이지의 BI/CI 또는 보도자료 페이지. 서드파티 사이트, 스크린샷, 임의 재현 SVG는 받지 않습니다 (Wikimedia Commons는 공식 출처에서 큐레이션된 경우 허용).
+2. **종횡비**: symbol은 1:1에 가까운 정사각형, wordmark는 가로형 직사각형.
+3. **SVGO 최적화**: 빌드 시 `removeDimensions` 플러그인이 root width/height를 제거하고 `preserveAspectRatio="xMidYMid meet"`를 주입하므로, 원본은 viewBox만 유지하면 됩니다.
+4. **a11y**: `<svg role="img" aria-label="<bank name>">` + `<title>` 포함 권장.
+5. **저장 위치**: 위 표 참조. slug는 institution record와 일치해야 함.
 6. **소스 URL 코멘트**: SVG 파일 상단에 `<!-- Source: https://... 2026-MM-DD -->` 추가.
 
-PR 작성 시 PR 본문에 출처 URL 명시.
+PR 작성 시 PR 본문에 출처 URL과 변형(symbol/wordmark) 명시.
 
 ## PR 가이드라인
 

@@ -29,12 +29,18 @@ describe('getInstitution', () => {
 describe('getInstitutionLogo', () => {
   it('returns null for unknown code', () => {
     expect(getInstitutionLogo('999')).toBeNull()
+    expect(getInstitutionLogo('999', 'symbol')).toBeNull()
+    expect(getInstitutionLogo('999', 'wordmark')).toBeNull()
   })
-})
 
-describe('getInstitutionLogo with seeded logo', () => {
-  it('returns SVG string for 088 (신한)', () => {
-    const logo = getInstitutionLogo('088')
-    expect(logo).toContain('<svg')
+  it('default variant is "symbol"', () => {
+    // For an institution with a wordmark but no symbol yet,
+    // the default-variant call should not surface the wordmark.
+    expect(getInstitutionLogo('088')).toBe(getInstitutionLogo('088', 'symbol'))
+  })
+
+  it('returns wordmark SVG for 088 (신한) when variant=wordmark', () => {
+    const wordmark = getInstitutionLogo('088', 'wordmark')
+    expect(wordmark).toContain('<svg')
   })
 })
