@@ -158,17 +158,19 @@ a { color: inherit; }
   box-shadow: var(--shadow-card);
   margin-bottom: 10px;
   transition: transform 0.18s ease, box-shadow 0.18s ease;
-  animation: slide-in 0.24s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  opacity: 1;
 }
 .candidate:hover { transform: translateY(-1px); box-shadow: var(--shadow-card-hover); }
 
-@keyframes slide-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .candidate { animation: none; }
+/* Subtle entry — purely decorative. If the keyframe doesn't run for any
+   reason (reduced motion, headless renderers), .candidate above keeps
+   opacity:1 so cards are never invisible. */
+@media (prefers-reduced-motion: no-preference) {
+  .candidate { animation: slide-in 0.24s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  @keyframes slide-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 }
 
 .logo {
