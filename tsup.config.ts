@@ -1,10 +1,7 @@
 import { defineConfig } from 'tsup'
-import { globSync } from 'node:fs'
-
-const logoEntries = globSync('src/logos/*.ts')
 
 export default defineConfig({
-  entry: ['src/index.ts', ...logoEntries],
+  entry: ['src/index.ts', 'src/logos/*.ts'],
   format: ['esm'],
   dts: true,
   sourcemap: true,
