@@ -27,7 +27,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm build
+      - run: pnpm build  # build runs prebuild → build-logos automatically
 
       - name: Create Release Pull Request or Publish
         uses: changesets/action@v1
