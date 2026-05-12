@@ -93,7 +93,11 @@ import shinhanLogo from 'korean-bank-detector/logos/088'
 
 ### 로고 커버리지
 
-v0.1.0은 매칭 데이터 17개 + 로고 1개로 출시됩니다 (신한은행 placeholder). 다른 16개 기관은 `getInstitutionLogo()` 호출 시 `null`을 반환합니다. 공식 BI/CI 기반 로고는 v0.1.x patch 릴리스를 통해 순차 추가될 예정입니다 — [logo PR 가이드](./CONTRIBUTING.md#새-로고-추가수정-simple-icons-모델) 참조.
+v0.1.0은 17개 기관 중 **13개**의 공식 SVG 로고를 포함합니다 (Wikimedia Commons 큐레이션 + 각 기관 공식 BI 출처). 다음 4개는 공식 SVG를 찾지 못해 `getInstitutionLogo()`가 `null`을 반환합니다:
+
+- KDB산업은행 (002), 부산은행 (032), 아이엠뱅크 (031), 새마을금고 (045)
+
+이들은 [logo PR 가이드](./CONTRIBUTING.md#새-로고-추가수정-simple-icons-모델)에 따라 공식 BI/CI에서 SVG가 확보되는 대로 patch 릴리스에 추가됩니다.
 
 새 기관 추가가 필요하면 [Issue 등록](https://github.com/mkroo/korean-bank-detector/issues/new?template=institution_request.yml)하거나 PR을 보내주세요. 자세한 절차는 [`CONTRIBUTING.md`](./CONTRIBUTING.md).
 
