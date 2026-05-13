@@ -113,14 +113,15 @@ getInstitutionLogo('088', 'wordmark')  // wordmark
 
 | 변형 | 확보 | 누락 |
 |---|---|---|
-| **symbol** (정사각 심볼마크) | 9개 | 8개 |
+| **symbol** (정사각 심볼마크) | 11개 | 6개 |
 | **wordmark** (가로 lockup) | 13개 | 4개 |
 
-- **symbol** 확보: NH농협, 농협중앙회, IBK, 하나, 카카오뱅크, K뱅크, SC제일, 우리, 씨티
-- **wordmark** 확보: 위 9개 + 신한, KB국민, 토스뱅크, 수협
-- **둘 다 누락**: KDB산업(002), 아이엠뱅크(031), 부산은행(032), 새마을금고(045) — 공식 SVG가 JPG/AI/PNG로만 제공됨
+- **symbol** 확보: 신한, KB국민, 하나, IBK, NH농협, 농협중앙회, 우리, SC제일, 씨티, K뱅크, 카카오뱅크
+- **wordmark** 확보: 위 11개 + 토스뱅크, 수협
+- **둘 다 누락**: KDB산업(002), 아이엠뱅크(031), 부산은행(032), 새마을금고(045) — 공식 BI에서 JPG/AI/PNG로만 제공됨
+- **wordmark만 있고 symbol 누락**: 토스뱅크(092, 정사각 심볼 자체 미공개), 수협(007, JPG만 제공)
 
-누락된 로고는 [logo PR 가이드](./CONTRIBUTING.md#새-로고-추가수정-simple-icons-모델)에 따라 공식 BI/CI에서 SVG가 확보되는 대로 patch 릴리스에 추가됩니다.
+누락된 로고는 [logo PR 가이드](./CONTRIBUTING.md#새-로고-추가수정-simple-icons-모델)에 따라 공식 BI/CI에서 SVG가 확보되는 대로 patch 릴리스에 추가됩니다. KB·신한처럼 공식 BI에서 `.ai` 형식만 제공하는 경우에는 `pdftocairo`로 SVG 변환 후 path bbox 기준으로 심볼 영역만 추출하는 방식을 사용했습니다.
 
 새 기관 추가가 필요하면 [Issue 등록](https://github.com/mkroo/korean-bank-detector/issues/new?template=institution_request.yml)하거나 PR을 보내주세요. 자세한 절차는 [`CONTRIBUTING.md`](./CONTRIBUTING.md).
 
