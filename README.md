@@ -111,40 +111,32 @@ getInstitutionLogo('088', 'wordmark')  // wordmark
 
 ### 지원 기관 및 로고 커버리지 (v0.1.0)
 
-총 17개 기관, **symbol 11개 / wordmark 13개**. 각 변형의 출처는 footnote 참조.
+총 17개 기관, **symbol 11개 / wordmark 13개**. 각 행에서 로고 이미지는 실제 번들된 SVG이며, 옆 셀에 출처가 링크되어 있습니다.
 
-| 코드 | 기관명 | symbol | wordmark |
-|---|---|:---:|:---:|
-| `002` | KDB산업은행 | — | — |
-| `003` | 중소기업은행 (IBK) | ✅[^ic] | ✅[^wm] |
-| `004` | KB국민은행 | ✅[^kb-bi] | ✅[^wm] |
-| `007` | 수협은행 | — | ✅[^wm] |
-| `011` | NH농협은행 | ✅[^wm] | ✅[^wm] |
-| `012` | 농협중앙회 | ✅[^wm] | ✅[^wm] |
-| `020` | 우리은행 | ✅[^ld] | ✅[^wm] |
-| `023` | SC제일은행 | ✅[^wm] | ✅[^wm] |
-| `027` | 한국씨티은행 | ✅[^wvl] | ✅[^wm] |
-| `031` | 아이엠뱅크 | — | — |
-| `032` | 부산은행 | — | — |
-| `045` | 새마을금고 | — | — |
-| `081` | 하나은행 | ✅[^ic] | ✅[^wm] |
-| `088` | 신한은행 | ✅[^sh-bi] | ✅[^wm] |
-| `089` | 케이뱅크 | ✅[^kbk] | ✅[^wm] |
-| `090` | 카카오뱅크 | ✅[^kkb-bi] | ✅[^wm] |
-| `092` | 토스뱅크 | — | ✅[^wm] |
+| 코드 | 기관명 | symbol | wordmark | symbol 출처 | wordmark 출처 |
+|:-:|---|:-:|:-:|---|---|
+| `002` | KDB산업은행 | — | — | — | — |
+| `003` | IBK 기업은행 | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/symbol/ibk.svg" height="32" alt="IBK"/> | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/wordmark/ibk.svg" height="24" alt="IBK"/> | [icongo](https://github.com/icongo/bank-logos) | [Wikimedia](https://commons.wikimedia.org/wiki/File:Industrial_Bank_of_Korea_Logo.svg) |
+| `004` | KB국민은행 | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/symbol/kookmin.svg" height="32" alt="KB"/> | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/wordmark/kookmin.svg" height="24" alt="KB"/> | [KB BI (.ai)](https://www.kbfg.com/kor/about/corporate/ci.htm) | [Wikimedia](https://commons.wikimedia.org/wiki/File:KB_logo.svg) |
+| `007` | 수협은행 | — | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/wordmark/suhyup.svg" height="24" alt="Suhyup"/> | — | [Wikimedia](https://commons.wikimedia.org/wiki/File:NFFC_(SuHyup)_Logo.svg) |
+| `011` | NH농협은행 | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/symbol/nonghyup.svg" height="32" alt="NH"/> | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/wordmark/nonghyup.svg" height="24" alt="NH"/> | [Wikimedia](https://commons.wikimedia.org/wiki/File:NACF_(NongHyup)_Logo.svg) | [Wikimedia](https://commons.wikimedia.org/wiki/File:NACF_(NongHyup)_Logo_with_wordmark.svg) |
+| `012` | 농협중앙회 | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/symbol/nonghyup-central.svg" height="32" alt="NACF"/> | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/wordmark/nonghyup-central.svg" height="24" alt="NACF"/> | [Wikimedia](https://commons.wikimedia.org/wiki/File:NACF_(NongHyup)_Logo.svg) | [Wikimedia](https://commons.wikimedia.org/wiki/File:NACF_(NongHyup)_Logo_with_wordmark.svg) |
+| `020` | 우리은행 | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/symbol/woori.svg" height="32" alt="Woori"/> | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/wordmark/woori.svg" height="24" alt="Woori"/> | [logos-download](https://logos-download.com) | [Wikimedia](https://commons.wikimedia.org/wiki/File:Logo_of_Woori_Bank.svg) |
+| `023` | SC제일은행 | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/symbol/sc-jeil.svg" height="32" alt="SC"/> | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/wordmark/sc-jeil.svg" height="24" alt="SC"/> | [Wikimedia](https://commons.wikimedia.org/wiki/File:Standard_Chartered_Logo_(2021,_Logo_only).svg) | [Wikimedia](https://commons.wikimedia.org/wiki/File:Standard_Chartered_(2021).svg) |
+| `027` | 한국씨티은행 | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/symbol/citi.svg" height="32" alt="Citi"/> | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/wordmark/citi.svg" height="24" alt="Citi"/> | [worldvectorlogo](https://worldvectorlogo.com/logo/citi) | [Wikimedia](https://commons.wikimedia.org/wiki/File:Citibank.svg) |
+| `031` | 아이엠뱅크 | — | — | — | — |
+| `032` | 부산은행 | — | — | — | — |
+| `045` | 새마을금고 | — | — | — | — |
+| `081` | 하나은행 | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/symbol/hana.svg" height="32" alt="Hana"/> | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/wordmark/hana.svg" height="24" alt="Hana"/> | [icongo](https://github.com/icongo/bank-logos) | [Wikimedia](https://commons.wikimedia.org/wiki/File:Hana_Bank_Logo_(eng).svg) |
+| `088` | 신한은행 | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/symbol/shinhan.svg" height="32" alt="Shinhan"/> | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/wordmark/shinhan.svg" height="24" alt="Shinhan"/> | [신한 BI (.ai)](https://shinhangroup.com/kr/about/identity/ci) | [Wikimedia](https://commons.wikimedia.org/wiki/File:Shinhan_Bank_Logo_(ENG).svg) |
+| `089` | 케이뱅크 | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/symbol/kbank.svg" height="32" alt="K뱅크"/> | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/wordmark/kbank.svg" height="24" alt="K뱅크"/> | [kbanknow](https://www.kbanknow.com) | [Wikimedia](https://commons.wikimedia.org/wiki/File:Kbank_logo.svg) |
+| `090` | 카카오뱅크 | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/symbol/kakaobank.svg" height="32" alt="카카오뱅크"/> | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/wordmark/kakaobank.svg" height="24" alt="카카오뱅크"/> | [카카오뱅크 BI](https://www.kakaobank.com/view/about/brand/resource) | [Wikimedia](https://commons.wikimedia.org/wiki/File:KakaoBank_logo.svg) |
+| `092` | 토스뱅크 | — | <img src="https://raw.githubusercontent.com/mkroo/korean-bank-detector/main/assets/logos/wordmark/toss.svg" height="24" alt="Toss"/> | — | [Wikimedia](https://commons.wikimedia.org/wiki/File:Toss-logo.svg) |
 
-**범례 (출처)**
+**참고**:
 
-[^wm]: [Wikimedia Commons](https://commons.wikimedia.org) — 공식 미디어킷에서 커뮤니티 큐레이션된 SVG.
-[^ic]: [icongo/bank-logos](https://github.com/icongo/bank-logos) GitHub 저장소 — 정사각 심볼 변형.
-[^ld]: [logos-download.com](https://logos-download.com) — 공식 BI 기반 큐레이션.
-[^wvl]: [worldvectorlogo.com](https://worldvectorlogo.com) — 글로벌 SC/Citi 본사 BI 기반.
-[^kb-bi]: [KB금융그룹 공식 BI](https://www.kbfg.com/kor/about/corporate/ci.htm) (`KB_SymbolMark_AI.zip`) — `.ai` → `pdftocairo` 변환 후 path bbox 필터로 심볼 영역만 추출.
-[^sh-bi]: [신한금융그룹 공식 BI](https://shinhangroup.com/kr/about/identity/ci) (`signature_AI.zip` → `국문 상하.ai`) — `.ai` 변환 후 첫 path만 추출.
-[^kkb-bi]: [카카오뱅크 공식 브랜드 자산](https://www.kakaobank.com/view/about/brand/resource) (`KakaoBank_BrandAsset_V2.0.zip` 내 `Digital_Symbol_Secondary_Yellow.svg`).
-[^kbk]: [kbanknow.com](https://www.kbanknow.com) 공식 favicon.svg.
-
-**누락 4개 (KDB산업·아이엠뱅크·부산은행·새마을금고)**: 공식 BI 페이지에 `.ai` 또는 JPG/PNG는 있으나 정사각 심볼이 별도로 정의되어 있지 않거나(KDB·토스·수협처럼 wordmark가 곧 브랜드), `.ai`에 raster가 embedded되어 변환이 불가능한 경우입니다. [logo PR 가이드](./CONTRIBUTING.md#새-로고-추가수정-simple-icons-모델)에 따라 새로운 출처가 확보되면 patch 릴리스로 추가됩니다.
+- **KB·신한 symbol**은 공식 BI 페이지의 `.ai` 파일을 `pdftocairo`로 SVG 변환 후 path bounding-box 필터로 심볼 영역만 추출하는 파이프라인을 사용했습니다.
+- **누락 4개 (KDB산업·아이엠뱅크·부산은행·새마을금고)**: 공식 BI에 wordmark만 있고 정사각 심볼이 별도로 정의되어 있지 않거나, `.ai`에 raster가 embedded되어 변환이 불가능했습니다. [logo PR 가이드](./CONTRIBUTING.md#새-로고-추가수정-simple-icons-모델)에 따라 새로운 출처가 확보되면 patch 릴리스로 추가됩니다.
 
 새 기관 추가가 필요하면 [Issue 등록](https://github.com/mkroo/korean-bank-detector/issues/new?template=institution_request.yml)하거나 PR을 보내주세요. 자세한 절차는 [`CONTRIBUTING.md`](./CONTRIBUTING.md).
 
