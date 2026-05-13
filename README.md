@@ -109,19 +109,42 @@ getInstitutionLogo('088', 'wordmark')  // wordmark
 
 현재 v0.1.0에서는 시중은행·인터넷전문은행·지방은행·상호금융 17개 기관을 지원합니다. 증권사 지원은 v0.2.0 로드맵에 포함되어 있습니다.
 
-### 로고 커버리지 (v0.1.0)
+### 지원 기관 및 로고 커버리지 (v0.1.0)
 
-| 변형 | 확보 | 누락 |
-|---|---|---|
-| **symbol** (정사각 심볼마크) | 11개 | 6개 |
-| **wordmark** (가로 lockup) | 13개 | 4개 |
+총 17개 기관, **symbol 11개 / wordmark 13개**. 각 변형의 출처는 footnote 참조.
 
-- **symbol** 확보: 신한, KB국민, 하나, IBK, NH농협, 농협중앙회, 우리, SC제일, 씨티, K뱅크, 카카오뱅크
-- **wordmark** 확보: 위 11개 + 토스뱅크, 수협
-- **둘 다 누락**: KDB산업(002), 아이엠뱅크(031), 부산은행(032), 새마을금고(045) — 공식 BI에서 JPG/AI/PNG로만 제공됨
-- **wordmark만 있고 symbol 누락**: 토스뱅크(092, 정사각 심볼 자체 미공개), 수협(007, JPG만 제공)
+| 코드 | 기관명 | symbol | wordmark |
+|---|---|:---:|:---:|
+| `002` | KDB산업은행 | — | — |
+| `003` | 중소기업은행 (IBK) | ✅[^ic] | ✅[^wm] |
+| `004` | KB국민은행 | ✅[^kb-bi] | ✅[^wm] |
+| `007` | 수협은행 | — | ✅[^wm] |
+| `011` | NH농협은행 | ✅[^wm] | ✅[^wm] |
+| `012` | 농협중앙회 | ✅[^wm] | ✅[^wm] |
+| `020` | 우리은행 | ✅[^ld] | ✅[^wm] |
+| `023` | SC제일은행 | ✅[^wm] | ✅[^wm] |
+| `027` | 한국씨티은행 | ✅[^wvl] | ✅[^wm] |
+| `031` | 아이엠뱅크 | — | — |
+| `032` | 부산은행 | — | — |
+| `045` | 새마을금고 | — | — |
+| `081` | 하나은행 | ✅[^ic] | ✅[^wm] |
+| `088` | 신한은행 | ✅[^sh-bi] | ✅[^wm] |
+| `089` | 케이뱅크 | ✅[^kbk] | ✅[^wm] |
+| `090` | 카카오뱅크 | ✅[^kkb-bi] | ✅[^wm] |
+| `092` | 토스뱅크 | — | ✅[^wm] |
 
-누락된 로고는 [logo PR 가이드](./CONTRIBUTING.md#새-로고-추가수정-simple-icons-모델)에 따라 공식 BI/CI에서 SVG가 확보되는 대로 patch 릴리스에 추가됩니다. KB·신한처럼 공식 BI에서 `.ai` 형식만 제공하는 경우에는 `pdftocairo`로 SVG 변환 후 path bbox 기준으로 심볼 영역만 추출하는 방식을 사용했습니다.
+**범례 (출처)**
+
+[^wm]: [Wikimedia Commons](https://commons.wikimedia.org) — 공식 미디어킷에서 커뮤니티 큐레이션된 SVG.
+[^ic]: [icongo/bank-logos](https://github.com/icongo/bank-logos) GitHub 저장소 — 정사각 심볼 변형.
+[^ld]: [logos-download.com](https://logos-download.com) — 공식 BI 기반 큐레이션.
+[^wvl]: [worldvectorlogo.com](https://worldvectorlogo.com) — 글로벌 SC/Citi 본사 BI 기반.
+[^kb-bi]: [KB금융그룹 공식 BI](https://www.kbfg.com/kor/about/corporate/ci.htm) (`KB_SymbolMark_AI.zip`) — `.ai` → `pdftocairo` 변환 후 path bbox 필터로 심볼 영역만 추출.
+[^sh-bi]: [신한금융그룹 공식 BI](https://shinhangroup.com/kr/about/identity/ci) (`signature_AI.zip` → `국문 상하.ai`) — `.ai` 변환 후 첫 path만 추출.
+[^kkb-bi]: [카카오뱅크 공식 브랜드 자산](https://www.kakaobank.com/view/about/brand/resource) (`KakaoBank_BrandAsset_V2.0.zip` 내 `Digital_Symbol_Secondary_Yellow.svg`).
+[^kbk]: [kbanknow.com](https://www.kbanknow.com) 공식 favicon.svg.
+
+**누락 4개 (KDB산업·아이엠뱅크·부산은행·새마을금고)**: 공식 BI 페이지에 `.ai` 또는 JPG/PNG는 있으나 정사각 심볼이 별도로 정의되어 있지 않거나(KDB·토스·수협처럼 wordmark가 곧 브랜드), `.ai`에 raster가 embedded되어 변환이 불가능한 경우입니다. [logo PR 가이드](./CONTRIBUTING.md#새-로고-추가수정-simple-icons-모델)에 따라 새로운 출처가 확보되면 patch 릴리스로 추가됩니다.
 
 새 기관 추가가 필요하면 [Issue 등록](https://github.com/mkroo/korean-bank-detector/issues/new?template=institution_request.yml)하거나 PR을 보내주세요. 자세한 절차는 [`CONTRIBUTING.md`](./CONTRIBUTING.md).
 
