@@ -1,0 +1,17 @@
+<!-- Source: https://www.imfngroup.com/rc0202.fg (iM_symbol.png, potrace traced) retrieved 2026-05-13 -->
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="540.000000pt" height="270.305676pt" viewBox="0 0 540.000000 270.305676"
+ preserveAspectRatio="xMidYMid meet">
+<metadata>
+Created by potrace 1.16, written by Peter Selinger 2001-2019
+</metadata>
+<g transform="translate(-420.000000,554.305676) scale(0.100000,-0.100000)"
+fill="#0fc4a5" stroke="none">
+<path d="M5160 5065 l0 -475 -480 0 -480 0 0 -875 0 -875 480 0 480 0 0 870 0
+870 68 0 c142 -1 346 -40 519 -101 646 -228 1115 -851 1150 -1526 l6 -113 478
+0 479 0 0 48 c0 66 17 213 36 307 55 274 207 576 402 799 235 268 602 482 947
+550 104 20 236 36 302 36 l53 0 0 482 0 481 -142 -6 c-612 -27 -1207 -275
+-1678 -699 -173 -156 -387 -416 -505 -612 l-65 -109 0 239 0 239 -101 108
+c-371 396 -893 684 -1425 787 -131 25 -352 50 -451 50 l-73 0 0 -475z"/>
+</g>
+</svg>
